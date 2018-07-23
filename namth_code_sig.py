@@ -15,7 +15,6 @@ print("""Enter Alice's Secret Key:""")
 x2 = int(input("[+]Enter Bob's Secret Key: "))
 y2 = (g^x2) % p
 print("Bob's Public Key: ",y2)
-
 x2 = bytes(x2)
 y2 = bytes(y1)
 
@@ -23,6 +22,5 @@ y2 = bytes(y1)
 from hashlib import blake2b
 h = blake2b(y2, digest_size=16)
 h.update(x1)
-
 k = h.hexdigest()
 print("""K Value:""", k)
