@@ -1,1 +1,2 @@
-23/07-Hoàn thành code mô phỏng thuật toán Caesar
+﻿23/07-Hoàn thành code mô phỏng thuật toán Caesar
+24/07-Tìm hiểu thuật toán des và viết một số hàm cần thiết
