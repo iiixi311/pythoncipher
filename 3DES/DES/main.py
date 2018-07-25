@@ -1,4 +1,5 @@
-#Test function
+#import lib
 from conversion import *
-s = binToHex("0110100001100101011011000110110001101111")
-print(hexToText(s))
+from destable import *
+
+print(createKeys("HelloCacBan",pc1,pc2))
