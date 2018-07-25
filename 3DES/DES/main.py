@@ -1,5 +1,8 @@
 #import lib
 from conversion import *
-from destable import *
+key = "hello"
+text = "I love vietnam"
 
-print(createKeys("HelloCacBan",pc1,pc2))
+#ciphertext = encrypt(text,key)
+#plaintext = decrypt(ciphertext,key)
+print(ciphertext)

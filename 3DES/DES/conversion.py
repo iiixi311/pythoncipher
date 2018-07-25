@@ -1,3 +1,5 @@
+from destable import *
+
 def textToHex(text):
 	return (text.encode("UTF-8")).hex()
 def hexToText(hexText):
@@ -77,12 +79,49 @@ def convertKeyToHex(key):
 		temp = "0"*(16-l)
 		hexKey = hexKey+temp
 	return hexKey
-def createKeys(keyString,pc1,pc2):
+def sBox(bit,num):
+	arr2D = []
+	if(num==0): arr2D = toArray2D(s1)
+	if(num==1): arr2D = toArray2D(s2)
+	if(num==2): arr2D = toArray2D(s3)
+	if(num==3): arr2D = toArray2D(s4)
+	if(num==4): arr2D = toArray2D(s5)
+	if(num==5): arr2D = toArray2D(s6)
+	if(num==6): arr2D = toArray2D(s7)
+	if(num==7): arr2D = toArray2D(s8)
+	arrDec = binTo2Dec(bit)
+	row = arrDec[0]
+	column = arrDec[1]
+
+	return dec16ToBin(arr2D[row][column])
+def F(R,K):
+	extR = toPermute(R,e)
+	xorRK = xor(extR,K)
+	catXorRK = cat8(xorRK)
+	strSbox = ""
+	for i in range(8):
+		B = catXorRK[i]
+		BS = sBox(B,i)
+		strSbox += BS
+		B = []
+		BS = []
+	return toPermute(strSbox,p)
+def cat(text):
+	l = len(text)
+	nl = 16 - l%16
+	text = text + "0"*nl
+	nBlock = int(len(text)/16)
+	result = []
+	for i in range(nBlock):
+		block = text[i*16:(i+1)*16]
+		result.append(block)
+	return result
+def createKeys(keyString):
 	C=[]
 	D=[]
 	CD=[]
 	K=[]
-	kHex=[]
+	#kHex=[]
 	keyHex = convertKeyToHex(keyString)
 	keyBin = hexToBin(keyHex)
 	keyPc1 = toPermute(keyBin,pc1) 
@@ -98,6 +137,54 @@ def createKeys(keyString,pc1,pc2):
 		D.append(toRight(D[i-2],bit))
 		CD.append(C[i]+D[i])
 		K.append(toPermute(CD[i-1],pc2))
-		kHex.append(binToHex(K[i-1]))
+		#kHex.append(binToHex(K[i-1]))
 
-	return kHex
+	return K
+
+def encrypt(plaintext,key):
+	K = createKeys(key)
+	hexText = textToHex(plaintext)
+	nBlock = cat(hexText)
+	cBlock = len(nBlock)
+	ciphertext = ""
+	R=[]
+	L=[]
+	for i in range(cBlock):
+		x = nBlock[i]
+		xBin = hexToBin(x)
+		xIp = toPermute(xBin,ip)
+		catx = cat2(xIp)
+		L.append(catx[0])
+		R.append(catx[1])
+		for i in range(16):
+			L.append(R[i])
+			f = F(R[i],K[i])
+			R.append(xor(L[i],f))
+		strRL = R[15]+L[15]
+		strOut = toPermute(strRL,ip_1)
+		ciphertext = binToHex(strOut)
+	return ciphertext
+
+"""def decrypt(ciphertext,key):
+	K = createKeys(key)
+	nBlock = cat(ciphertext)
+	cBlock = len(nBlock)
+	plaintext = ""
+	R=[]
+	L=[]
+	for i in range(cBlock):
+		x = nBlock[i]
+		xBin = hexToBin(x)
+		xIp = toPermute(xBin,ip)
+		catx = cat2(xIp)
+		L.append(catx[0])
+		R.append(catx[1])
+		for i in range(16):
+			L.append(R[i])
+			f = F(R[i],K[15-i])
+			R.append(xor(L[i],f))
+		strRL = R[15]+L[15]
+		strOut = toPermute(strRL,ip_1)
+		plaintext = binToHex(strOut)
+		plaintext = hexToText(plaintext)
+	return plaintext"""
