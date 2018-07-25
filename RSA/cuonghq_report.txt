@@ -1,0 +1,16 @@
+# Mã hóa RSA
+* Người thực hiện: Hoàng Quốc Cường *
+
+## Lý thuyết
+### RSA là gì ?
+- Là một hệ mã hóa bất đối xứng được phát triển bởi Ron Rivest, Adi Shamir, Leonard Adleman và được sử dụng rộng rãi trong công tác mã hóa và công nghệ chữ ký điện tử
+- Hoạt động của RSA dựa trên 4 bước chính:
+	- Sinh khóa
+	- Chia sẻ key
+	- Mã hóa
+	- Giải mã
+### Sinh khóa
+- Khóa của RSA được sinh như sau:
+	- Chọn 2 số nguyên tố p và q
+	- Tính n = pq. (n sau được dùng làm modulus trong cả public key và private key)
+	- Tính số giả nguyên tố bằng hàm Carmichael: ** λ(n) = BCNN(λ(p), λ(q)) = BCNN(p − 1, q − 1) **
