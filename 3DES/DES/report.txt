@@ -1,0 +1,9 @@
+﻿#Mã hóa DES
+
+Thuật toán Des là gì?
+  -Des là một thuật toán mã hóa dối xứng, được IBM phát triển từ đầu những năm 1970
+  -Des hoạt động vói đầu vào là một key 64 bits và các khối 64 bits cho đầu ra cũng là các khối 64 bits tương ứng sau mã hóa
+Các giai đoạn chính:
+  -Sinh khóa
+  -Mã hóa
+  -Giải mã
